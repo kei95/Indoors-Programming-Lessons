@@ -4,8 +4,10 @@ import "./App.css";
 import Card from "@mui/material/Card";
 
 import { Box, Button, CardContent, TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 function App() {
+  const navigate = useNavigate();
   const initialValues = { mailAddress: "", password: "" };
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState(initialValues);
@@ -42,12 +44,12 @@ function App() {
       errors.password = "";
     }
 
-    if (!values.mailAddress || !values.password) {
-      alert("未入力の項目があります");
+    if (errors.mailAddress || errors.password) {
+      alert("エラーがあります");
       return errors;
     }
 
-    alert(`Email:${values.mailAddress}\nPssword: ${values.passwordd}`);
+    navigate(`success?email=${values.mailAddress}&password=${values.password}`);
     return errors;
   };
 
@@ -66,6 +68,7 @@ function App() {
               error={Boolean(formErrors.mailAddress)}
               helperText={formErrors.mailAddress}
               label="Email"
+              type="email"
               variant="standard"
               sx={{ marginBottom: "1rem" }}
               name="mailAddress"
